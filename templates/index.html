@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector & Summarizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+
+<div class="container">
+    <h1>Verify & Summarize News</h1>
+    
+    <div id="error-container" class="error" style="display: none;"></div>
+
+    <form id="news-form">
+        <textarea id="news-text" name="news_text" placeholder="Paste your news article here..." required></textarea>
+        <button type="submit" id="submit-btn">Analyze News</button>
+    </form>
+
+    <div id="loading" style="display: none;" class="loading-spinner">
+        Analyzing and summarizing... Please wait.
+    </div>
+
+    <div id="result-container" style="display: none;" class="result-box">
+        <div id="confidence-box" class="confidence"></div>
+        <div id="summary-section" style="display: none;">
+            <h3>Executive Summary:</h3>
+            <div id="summary-box" class="summary-box"></div>
+        </div>
+        <div id="fake-warning" style="display: none;">
+            <p>⚠️ This news appears to be misleading or entirely fabricated. Please check other reliable sources.</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
