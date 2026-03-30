@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import nltk
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 
 for dep in ['punkt', 'stopwords', 'wordnet', 'punkt_tab']:
     nltk.download(dep, quiet=True)
@@ -82,9 +82,13 @@ def index():
 @app.route("/predict", methods=["POST"])
 def predict():
     if request.method == "POST":
-        news_text = request.form.get("news_text", "")
+        if request.is_json:
+            news_text = request.json.get("news_text", "")
+        else:
+            news_text = request.form.get("news_text", "")
+        
         if not news_text.strip():
-            return render_template("index.html", error="Please enter some text to analyze.")
+            return jsonify({"error": "Please enter some text to analyze."}), 400
         
         text_clean = "".join([char for char in news_text if char not in string.punctuation]).lower()
         tokens = text_clean.split()
@@ -114,7 +118,7 @@ def predict():
         if result["is_real"]:
             result["summary"] = summarize_long_text(news_text)
             
-        return render_template("index.html", result=result, original_text=news_text)
+        return jsonify({"result": result, "original_text": news_text})
 
 if __name__ == "__main__":
     load_models()
