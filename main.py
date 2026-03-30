@@ -110,8 +110,8 @@ def predict():
         confidence = rf.predict_proba(features_scaled).max()
         
         result = {
-            "is_real": prediction == 1,
-            "confidence": round(confidence * 100, 2),
+            "is_real": bool(prediction == 1),
+            "confidence": float(round(confidence * 100, 2)),
             "summary": None
         }
         
